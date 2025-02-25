@@ -1,0 +1,15 @@
+# Node Modules
+frontend/node_modules
+
+# Angular Build Output
+frontend/dist
+
+# .NET Build Output
+backend/bin
+backend/obj
+
+# IDE settings
+.vscode/
+*.suo
+*.user
+*.db
