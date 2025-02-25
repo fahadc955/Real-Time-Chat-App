@@ -1,0 +1,45 @@
+<div class="chat-container" *ngIf="isValidId; else invalidId">
+  <!-- Left Sidebar -->
+  <div class="sidebar">
+    <h3>Users</h3>
+    <div
+      *ngFor="let user of getAvailableRecipients()"
+      class="user-item"
+      (click)="selectUser(user)"
+    >
+      <span [class.active]="selectedUser === user">{{ user }}</span>
+    </div>
+  </div>
+
+  <!-- Right Chat Window -->
+  <div class="chat-window" *ngIf="selectedUser">
+    <h3>Chat with {{ selectedUser }}</h3>
+
+    <div class="messages">
+      <div *ngFor="let msg of chatHistory" class="message">
+        <p>
+          <strong>{{ msg.fromUserId }}:</strong> {{ msg.message }}
+        </p>
+      </div>
+      <p *ngIf="typingUser">
+        <em>{{ typingUser }} is typing...</em>
+      </p>
+    </div>
+
+    <div class="chat-input">
+      <input
+        [(ngModel)]="message"
+        (input)="onTyping()"
+        placeholder="Type a message..."
+      />
+      <button (click)="sendMessage()" [disabled]="!message.trim()">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- Invalid User ID Message -->
+<ng-template #invalidId>
+  <div class="invalid-user">
+    <h3>Please provide a valid User ID.</h3>
+  </div>
+</ng-template>
