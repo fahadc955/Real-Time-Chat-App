@@ -49,6 +49,7 @@ export class ChatComponent implements OnInit {
       // ✅ If the received message is from the currently selected chat, update the UI instantly
       if (this.selectedUser === fromUserId) {
         this.chatHistory = [...this.chatHistories[fromUserId]];
+        console.log(this.chatHistory);
       }
 
       // ✅ Play notification sound if the message is from another user
@@ -107,7 +108,12 @@ export class ChatComponent implements OnInit {
           `https://localhost:7260/api/messages/${this.userId}/${user}`
         )
         .subscribe((messages) => {
-          this.chatHistories[user] = messages;
+          const msgs = messages.map((msg) => ({
+            fromUserId: user,
+            message: msg.content,
+          }));
+
+          this.chatHistories[user] = msgs;
 
           // ✅ If this user is currently selected, update UI
           if (this.selectedUser === user) {
