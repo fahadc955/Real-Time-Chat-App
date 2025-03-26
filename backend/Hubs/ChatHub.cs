@@ -25,13 +25,18 @@ namespace chat_api.Hubs
             }
         }
 
-        public async Task UserTyping(string fromUserId, string toUserId)
+        public async Task UserTyping(string fromUserId, string toUserId, string message)
         {
-            if (ConnectedUsers.TryGetValue(toUserId, out string connectionId))
+            if (!ConnectedUsers.TryGetValue(toUserId, out string connectionId))
             {
-                await Clients.Client(connectionId).SendAsync("UserTyping", fromUserId);
+                return; // Stop execution if the recipient is not connected
             }
+
+            string sender = string.IsNullOrEmpty(message) ? null : fromUserId;
+
+            await Clients.Client(connectionId).SendAsync("UserTyping", sender);
         }
+
 
         public override Task OnConnectedAsync()
         {

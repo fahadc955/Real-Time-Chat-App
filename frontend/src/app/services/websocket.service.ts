@@ -30,9 +30,13 @@ export class WebSocketService {
   }
 
   /** Sends typing indicator */
-  sendTypingIndicator(fromUserId: string, toUserId: string): void {
+  sendTypingIndicator(
+    fromUserId: string,
+    toUserId: string,
+    message: string
+  ): void {
     this.hubConnection
-      ?.invoke('UserTyping', fromUserId, toUserId)
+      ?.invoke('UserTyping', fromUserId, toUserId, message)
       .catch((err) => console.error('Error sending typing indicator:', err));
   }
 

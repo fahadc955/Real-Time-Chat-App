@@ -60,10 +60,9 @@ export class ChatComponent implements OnInit {
 
     // ✅ Handle typing indicator updates
     this.wsService.onTypingIndicator((fromUserId: string) => {
-      if (fromUserId === this.selectedUser) {
+      if (fromUserId && fromUserId === this.selectedUser)
         this.typingUser = fromUserId;
-        setTimeout(() => (this.typingUser = null), 2000);
-      }
+      else this.typingUser = null;
     });
   }
 
@@ -125,7 +124,11 @@ export class ChatComponent implements OnInit {
 
   onTyping(): void {
     if (this.userId && this.selectedUser) {
-      this.wsService.sendTypingIndicator(this.userId, this.selectedUser);
+      this.wsService.sendTypingIndicator(
+        this.userId,
+        this.selectedUser,
+        this.message
+      );
     }
   }
 
